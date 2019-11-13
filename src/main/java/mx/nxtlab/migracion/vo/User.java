@@ -1,5 +1,10 @@
 package mx.nxtlab.migracion.vo;
 
-public class User {
+import java.util.Date;
 
+public class User {
+    Date lastSeen;
+    String firstName;
+    String lastName;
+    String password;
 }
