@@ -1,16 +1,16 @@
 package mx.nxtlab.migracion;
 
-import org.springframework.context.annotation.Lazy;
+import io.micronaut.context.annotation.Context;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-@Component
-@Lazy(false)
+@Singleton
+@Context
 public class SetupDatabase {
 
     @Inject

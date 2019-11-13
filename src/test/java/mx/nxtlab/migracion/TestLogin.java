@@ -1,17 +1,11 @@
 package mx.nxtlab.migracion;
 
+import io.micronaut.context.annotation.Value;
+import io.micronaut.http.HttpHeaders;
+import io.micronaut.test.annotation.MicronautTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.client.RestTemplate;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -24,13 +18,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Raul Estrada
  */
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@TestPropertySource("classpath:test.properties")
+@MicronautTest
 public class TestLogin {
 
     private final RestTemplate rest = new RestTemplate();
-    @LocalServerPort
+    @Value("${micronaut.server.port}")
     private int port;
 
     @Inject
@@ -56,7 +48,7 @@ public class TestLogin {
                     "http://localhost:" + port + "/login/1",
                     new HttpEntity<>("password=password", headers ));
             assertNotNull(resp);
-            assertTrue(resp.hasBody()));
+            assertTrue(resp.hasBody());
             assertEquals(true, resp.getBody().get("error") );
     }
 
@@ -64,11 +56,11 @@ public class TestLogin {
     public void badPassword() {
             ResponseEntity<Map> resp = rest.postForEntity(
                     "http://localhost:" + port + "/login/1",
-                    new HttpEntity<>("password=pass123", headers ));
+                    new HttpEntity<>("password=foo", headers ));
             assertNotNull(resp);
-            assertTrue(resp.hasBody()));
-            assertEquals(true, resp.getBody().get("error") );
+            assertTrue(resp.hasBody());
+            assertEquals(false, resp.getBody().get("success") );
 
     }
 }
-}
+
