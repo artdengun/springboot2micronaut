@@ -40,7 +40,7 @@ dependencies {
 	testRuntimeOnly 'com.h2database:h2'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api',
 			'io.micronaut.test:micronaut-test-junit5'
-	testRuntime 'org.junit.jupiter:junit-jupter-engine'
+	testRuntime 'org.junit.jupiter:junit-jupiter-engine'
 }
 
 test {

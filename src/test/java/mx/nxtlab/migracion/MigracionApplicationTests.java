@@ -1,14 +1,9 @@
 package mx.nxtlab.migracion;
 
+import io.micronaut.test.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@TestPropertySource("classpath:test.properties")
+@MicronautTest
 public class MigracionApplicationTests {
 
     @Test
