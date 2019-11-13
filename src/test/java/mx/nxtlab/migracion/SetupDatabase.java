@@ -7,6 +7,7 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 @ManagedBean
 @Lazy(false)
@@ -17,7 +18,7 @@ public class SetupDatabase {
 
     @PostConstruct
     public void init() {
-        var populator = new ResourceDatabasePopulator();
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("tables.sql"));
         populator.addScript(new ClassPathResource("data.sql"));
         populator.execute(jdbc.getDataSource());
