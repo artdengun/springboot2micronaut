@@ -1,7 +1,6 @@
 package mx.nxtlab.migracion;
 
 import mx.nxtlab.migracion.vo.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -12,7 +11,7 @@ import java.util.Optional;
 @ManagedBean
 public class UserDao {
 
-    @Autowired
+    @Inject
     private JdbcTemplate jdbc;
 
     public Optional<User> getUser(long userId) {
