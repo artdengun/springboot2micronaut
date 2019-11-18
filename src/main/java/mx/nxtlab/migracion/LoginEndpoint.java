@@ -1,8 +1,11 @@
 package mx.nxtlab.migracion;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.PostConstruct;
 
 /*
  * A simple login endpoint
@@ -10,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginEndpoint {
 
+    @Autowired
     private UserDao dao;
     private final LoginResponse noSuchUserResponse = new LoginResponse();
 
+    @PostConstruct
     public void init(){
         noSuchUserResponse.setSuccess(false);
         noSuchUserResponse.setError("No such user");
