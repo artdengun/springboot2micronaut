@@ -5,7 +5,7 @@ import mx.nxtlab.migracion.vo.User;
 
 @Data
 public class LoginResponse {
-    boolean success;
-    String error;
-    User user;
+    private boolean success;
+    private String error;
+    private User user;
 }
