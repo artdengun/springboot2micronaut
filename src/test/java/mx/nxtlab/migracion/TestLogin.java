@@ -1,17 +1,26 @@
 package mx.nxtlab.migracion;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.http.HttpHeaders;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
+import java.util.Objects;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test the login endpoint.
@@ -20,7 +29,7 @@ import java.util.Map;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestPropertySource("classpath:test.properties")
 public class TestLogin {
 
@@ -33,36 +42,41 @@ public class TestLogin {
     private static HttpHeaders headers = new HttpHeaders();
 
     @BeforeTestClass
-    public static void setup() {headers.setContentType
-        @Test
+    public static void setup() {
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+    }
+
+    @Test
     public void ok() {
         ResponseEntity<Map> resp = rest.postForEntity(
                 "http://localhost:" + port + "/login/1",
-                new HttpEntity<>("password=password", headers ));
-                assertNotNull(resp);
-                assertTrue(resp.hasBody()));
-        assertEquals(true, resp.getBody().get("success") );
+                new HttpEntity<>("password=password", headers), Map.class);
+        assertNotNull(resp);
+        assertTrue(resp.hasBody());
+        assertEquals(true, Objects.requireNonNull(resp.getBody()).get("success"));
     }
 
     @Test
     public void blocked() {
-            ResponseEntity<Map> resp = rest.postForEntity(
-                    "http://localhost:" + port + "/login/1",
-                    new HttpEntity<>("password=password", headers ));
-            assertNotNull(resp);
-            assertTrue(resp.hasBody()));
-            assertEquals(true, resp.getBody().get("error") );
+        jdbc.update("UPDATE demo_user SET status=999 WHERE user_id=?", 3);
+        ResponseEntity<Map> resp = rest.postForEntity(
+                "http://localhost:" + port + "/login/3",
+                new HttpEntity<>("password=password", headers), Map.class);
+        assertNotNull(resp);
+        assertTrue(resp.hasBody());
+        assertEquals(false, Objects.requireNonNull(resp.getBody()).get("success"));
+        assertTrue(resp.getBody().containsKey("error"));
+        assertTrue(resp.getBody().get("error").toString().contains("blocked"));
     }
 
     @Test
     public void badPassword() {
-            ResponseEntity<Map> resp = rest.postForEntity(
-                    "http://localhost:" + port + "/login/1",
-                    new HttpEntity<>("password=pass123", headers ));
-            assertNotNull(resp);
-            assertTrue(resp.hasBody()));
-            assertEquals(true, resp.getBody().get("error") );
-
+        ResponseEntity<Map> resp = rest.postForEntity(
+                "http://localhost:" + port + "/login/1",
+                new HttpEntity<>("password=foo", headers), Map.class);
+        assertNotNull(resp);
+        assertTrue(resp.hasBody());
+        assertEquals(false, Objects.requireNonNull(resp.getBody()).get("success"));
     }
 }
-}
+
