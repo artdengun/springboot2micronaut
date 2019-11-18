@@ -30,10 +30,7 @@ public class LoginEndpoint {
             if(u.getStatus() != 1) {
                 resp.setError("User is blocked or inactive");
             } else if (u.validatePassword(password)) {
-                resp.setFirstName(u.getFirstName());
-                resp.setLastName(u.getLastName());
-                resp.setLastSeen(u.getLastSeen());
-                resp.setEmail(u.getEmail());
+                resp.setUser(u);
                 resp.setSuccess(true);
             } else {
                 resp.setError("Invalid password");
