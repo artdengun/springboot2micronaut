@@ -1,5 +1,6 @@
 package mx.nxtlab.migracion;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class TestLogin {
     private JdbcTemplate jdbc;
     private static HttpHeaders headers = new HttpHeaders();
 
+    @BeforeClass
     public static void setup() {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
     }
