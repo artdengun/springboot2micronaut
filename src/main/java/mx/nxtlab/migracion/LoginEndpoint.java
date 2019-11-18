@@ -38,5 +38,4 @@ public class LoginEndpoint {
             return resp;
         }).orElse(noSuchUserResponse);
     }
-
 }
