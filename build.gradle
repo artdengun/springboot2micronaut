@@ -32,8 +32,7 @@ dependencies {
 			'io.micronaut:micronaut-runtime',
 			'io.micronaut:micronaut-http-server-netty',
 			'io.micronaut:micronaut-http-client',
-			'org.springframework:spring-jdbc:5.1.9.RELEASE',
-			'org.springframework:spring-web:5.1.9.RELEASE'
+			'org.springframework:spring-jdbc:5.1.9.RELEASE'
 	runtimeOnly 'org.postgresql:postgresql:42.2.6'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.8'
 	testAnnotationProcessor 'io.micronaut:micronaut-inject-java'

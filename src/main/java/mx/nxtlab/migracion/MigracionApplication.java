@@ -18,11 +18,12 @@ public class MigracionApplication {
                                  @Value("${datasource.password}") String password,
                                  @Value("${datasource.maxtotal}") int maxTotal
                                  ){
-        DataSource ds = new BasicDataSource();
-        ds.setUrl(url);
-        ds.setUsername(username);
-        ds.setPassword(password);
-        ds.setMaxTotal(maxTotal);
+        DataSource ds = null;
+        //DataSource ds = new BasicDataSource();
+        //ds.setUrl(url);
+        //ds.setUsername(username);
+        //ds.setPassword(password);
+        //ds.setMaxTotal(maxTotal);
         return ds;
     }
 
