@@ -7,10 +7,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 
-@ManagedBean
+@Component
 @Lazy(false)
 public class SetupDatabase {
 

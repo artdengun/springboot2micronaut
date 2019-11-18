@@ -4,12 +4,12 @@ import mx.nxtlab.migracion.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Optional;
 
-@Controller
+@Component
 public class UserDao {
 
     @Autowired
