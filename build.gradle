@@ -1,7 +1,10 @@
+
 plugins {
-	id 'org.springframework.boot' version '2.2.1.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'com.github.johnrengelman.shadow' version '4.0.2'
 	id 'java'
+	id 'idea'
+	id 'application'
 }
 
 group = 'mx.nxtlab'
@@ -12,11 +15,33 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+dependencyManagement {
+	imports {
+		mavenBom 'io.micronaut:micronaut-bom:1.2.0'
 	}
+}
+
+dependencies {
+	annotationProcessor 'org.projectlombok:lombok:1.18.8'
+	annotationProcessor 'io.micronaut:micronaut-inject-java'
+	annotationProcessor 'io.micronaut:micronaut-validation'
+	compileOnly 'org.projectlombok:lombok:1.18.8'
+	implementation 'javax.inject:javax.inject:1',
+			'io.micronaut:micronaut-inject',
+			'io.micronaut:micronaut-validation',
+			'io.micronaut:micronaut-runtime',
+			'io.micronaut:micronaut-http-server-netty',
+			'io.micronaut:micronaut-http-client',
+			'org.springframework:spring-jdbc:5.1.9.RELEASE'
+	runtimeOnly 'org.postgresql:postgresql:42.2.6'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.8'
+	testAnnotationProcessor 'io.micronaut:micronaut-inject-java'
+	testAnnotationProcessor 'io.micronaut:micronaut-validation'
+	testCompileOnly 'org.projectlombok:lombok:1.18.8'
+	testRuntimeOnly 'com.h2database:h2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api',
+			'io.micronaut.test:micronaut-test-junit5'
+	testRuntime 'org.junit.jupiter:junit-jupiter-engine'
 }
 
 test {
