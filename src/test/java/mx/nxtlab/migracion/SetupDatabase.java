@@ -1,19 +1,19 @@
 package mx.nxtlab.migracion;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.stereotype.Component;
 
+import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
-@Component
+@ManagedBean
 @Lazy(false)
 public class SetupDatabase {
 
-    @Autowired
+    @Inject
     private JdbcTemplate jdbc;
 
     @PostConstruct

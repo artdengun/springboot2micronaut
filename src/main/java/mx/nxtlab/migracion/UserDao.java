@@ -5,6 +5,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.ManagedBean;
+import javax.inject.Inject;
 import java.util.Date;
 import java.util.Optional;
 
