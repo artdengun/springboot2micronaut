@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.inject.Inject;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,36 +35,41 @@ public class TestLogin {
     private static HttpHeaders headers = new HttpHeaders();
 
     @BeforeAll
-    public static void setup() {headers.setContentType()}
+    public static void setup() {
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+    }
 
     @Test
     public void ok() {
         ResponseEntity<Map> resp = rest.postForEntity(
                 "http://localhost:" + port + "/login/1",
-                new HttpEntity<>("password=password", headers ));
-                assertNotNull(resp);
-                assertTrue(resp.hasBody());
-                assertEquals(true, resp.getBody().get("success") );
+                new HttpEntity<>("password=password", headers), Map.class);
+        assertNotNull(resp);
+        assertTrue(resp.hasBody());
+        assertEquals(true, Objects.requireNonNull(resp.getBody()).get("success"));
     }
 
     @Test
     public void blocked() {
-            ResponseEntity<Map> resp = rest.postForEntity(
-                    "http://localhost:" + port + "/login/1",
-                    new HttpEntity<>("password=password", headers ));
-            assertNotNull(resp);
-            assertTrue(resp.hasBody());
-            assertEquals(true, resp.getBody().get("error") );
+        jdbc.update("UPDATE demo_user SET status=999 WHERE user_id=?", 3);
+        ResponseEntity<Map> resp = rest.postForEntity(
+                "http://localhost:" + port + "/login/3",
+                new HttpEntity<>("password=password", headers), Map.class);
+        assertNotNull(resp);
+        assertTrue(resp.hasBody());
+        assertEquals(false, Objects.requireNonNull(resp.getBody()).get("success"));
+        assertTrue(resp.getBody().containsKey("error"));
+        assertTrue(resp.getBody().get("error").toString().contains("blocked"));
     }
 
     @Test
     public void badPassword() {
-            ResponseEntity<Map> resp = rest.postForEntity(
-                    "http://localhost:" + port + "/login/1",
-                    new HttpEntity<>("password=foo", headers ));
-            assertNotNull(resp);
-            assertTrue(resp.hasBody());
-            assertEquals(false, resp.getBody().get("success") );
+        ResponseEntity<Map> resp = rest.postForEntity(
+                "http://localhost:" + port + "/login/1",
+                new HttpEntity<>("password=foo", headers), Map.class);
+        assertNotNull(resp);
+        assertTrue(resp.hasBody());
+        assertEquals(false, Objects.requireNonNull(resp.getBody()).get("success"));
 
     }
 }
