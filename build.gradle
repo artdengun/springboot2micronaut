@@ -25,6 +25,9 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'com.h2database:h2'
+	testCompile('junit:junit:4.12'){
+		exclude group: 'org.hamcrest'
+	}
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
