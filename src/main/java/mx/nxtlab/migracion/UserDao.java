@@ -6,19 +6,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Optional;
 
 @ManagedBean
 public class UserDao {
+
     @Inject
     private JdbcTemplate jdbc;
 
     public Optional<User> getUser(long userId) {
         try {
-            return Optional.of(jdbc.queryForObject(
+            return Optional.ofNullable(jdbc.queryForObject(
                     "SELECT * FROM demo_user WHERE userd_id=" + userId, User.class
             ));
         } catch (EmptyResultDataAccessException ex) {

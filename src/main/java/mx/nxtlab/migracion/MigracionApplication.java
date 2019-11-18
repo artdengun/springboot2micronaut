@@ -3,9 +3,10 @@ package mx.nxtlab.migracion;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.runtime.Micronaut;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.inject.Inject;
+import javax.sql.DataSource;
 import javax.inject.Singleton;
 
 @Controller
@@ -17,7 +18,7 @@ public class MigracionApplication {
                                  @Value("${datasource.password}") String password,
                                  @Value("${datasource.maxtotal}") int maxTotal
                                  ){
-        DataSource ds = new DataSource();
+        DataSource ds = new BasicDataSource();
         ds.setUrl(url);
         ds.setUsername(username);
         ds.setPassword(password);
